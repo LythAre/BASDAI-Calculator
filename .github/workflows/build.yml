@@ -1,6 +1,7 @@
 name: Build All Platforms
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'android/**'
@@ -22,9 +23,9 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      android: ${{ steps.filter.outputs.android }}
-      linux: ${{ steps.filter.outputs.linux }}
-      windows: ${{ steps.filter.outputs.windows }}
+      android: ${{ github.event_name == 'workflow_dispatch' && 'true' || steps.filter.outputs.android }}
+      linux: ${{ github.event_name == 'workflow_dispatch' && 'true' || steps.filter.outputs.linux }}
+      windows: ${{ github.event_name == 'workflow_dispatch' && 'true' || steps.filter.outputs.windows }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -46,7 +47,7 @@ jobs:
 
   build-linux:
     needs: changes
-    if: needs.changes.outputs.linux == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.linux == 'true'
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +69,7 @@ jobs:
 
   build-windows:
     needs: changes
-    if: needs.changes.outputs.windows == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.windows == 'true'
     runs-on: windows-2022
     env:
       CMAKE_GENERATOR: Visual Studio 17 2022
@@ -93,7 +94,7 @@ jobs:
 
   build-android:
     needs: changes
-    if: needs.changes.outputs.android == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.android == 'true'
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
