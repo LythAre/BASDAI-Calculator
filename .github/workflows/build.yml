@@ -35,17 +35,14 @@ jobs:
               - 'android/**'
               - 'lib/**'
               - 'pubspec.yaml'
-              - '.github/workflows/build.yml'
             linux:
               - 'linux/**'
               - 'lib/**'
               - 'pubspec.yaml'
-              - '.github/workflows/build.yml'
             windows:
               - 'windows/**'
               - 'lib/**'
               - 'pubspec.yaml'
-              - '.github/workflows/build.yml'
 
   build-linux:
     needs: changes
