@@ -1,17 +1,39 @@
-# calc
+# BASDAI Calculator
 
-A new Flutter project.
+Калькулятор индекса активности спондилоартрита (BASDAI).
 
-## Getting Started
+## 📱 О приложении
 
-This project is a starting point for a Flutter application.
+BASDAI (Bath Ankylosing Spondylitis Disease Activity Index) — это инструмент для оценки активности спондилоартрита. Приложение позволяет быстро заполнить опросник и получить результат.
 
-A few resources to get you started if this is your first Flutter project:
+### Шкала оценки:
+- **0–2** — Низкая активность
+- **2–4** — Умеренная активность
+- **4–6** — Высокая активность
+- **6–10** — Очень высокая активность
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+> BASDAI > 4 указывает на высокую активность заболевания
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📊 Как пользоваться
+
+1. Ответьте на 6 вопросов с помощью ползунков (шкала 0–10)
+2. Результат рассчитается автоматически
+3. Цветовая индикация покажет уровень активности
+
+## 🖥️ Платформы
+
+- Windows (.exe)
+- Android (.apk)
+- Linux
+
+## 🛠️ Сборка
+
+```bash
+# Windows
+flutter build windows
+
+# Android
+flutter build apk --release
+
+# Linux
+flutter build linux
