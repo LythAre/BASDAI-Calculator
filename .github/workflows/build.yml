@@ -60,10 +60,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
       - run: flutter build linux
+      - name: Prepare Linux artifact folder
+        run: |
+          mkdir -p artifacts/linux
+          cp -R build/linux/x64/release/bundle/. artifacts/linux/
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai_calculator-linux
-          path: build/linux/x64/release/bundle/
+          name: basdai calculator-linux
+          path: artifacts/linux/
 
   build-windows:
     needs: changes
@@ -80,10 +84,15 @@ jobs:
         run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
+      - name: Prepare Windows artifact folder
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/windows | Out-Null
+          Copy-Item -Path build/windows/x64/runner/Release/* -Destination artifacts/windows -Recurse -Force
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai_calculator-windows
-          path: build/windows/x64/runner/Release/
+          name: basdai calculator-windows
+          path: artifacts/windows/
 
   build-android:
     needs: changes
@@ -97,5 +106,5 @@ jobs:
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai_calculator-android
+          name: basdai calculator-android
           path: build/app/outputs/flutter-apk/app-release.apk
