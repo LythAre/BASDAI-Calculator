@@ -1,10 +1,13 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
-project(calc LANGUAGES CXX)
+project(basdai_calculator LANGUAGES CXX)
 
-# The name of the executable created for the application. Change this to change
-# the on-disk name of your application.
-set(BINARY_NAME "calc")
+# Автовыбор доступного генератора
+if(CMAKE_GENERATOR MATCHES "Visual Studio")
+  # Не привязываемся к конкретной версии
+endif()
+
+set(BINARY_NAME "BASDAI_Calculator")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
