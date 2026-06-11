@@ -50,7 +50,7 @@ jobs:
   build-linux:
     needs: changes
     if: needs.changes.outputs.linux == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -58,16 +58,16 @@ jobs:
           flutter-version: '3.44.1'
       - run: |
           sudo apt-get update
-          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libglib2.0-dev liblzma-dev
       - run: flutter build linux
       - name: Prepare Linux artifact folder
         run: |
-          mkdir -p artifacts/linux
-          cp -R build/linux/x64/release/bundle/. artifacts/linux/
+          mkdir -p artifacts/BASDAI-Calculator
+          cp -R build/linux/x64/release/bundle/. artifacts/BASDAI-Calculator/
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai calculator-linux
-          path: artifacts/linux/
+          name: BASDAI-Calculator-linux
+          path: artifacts/BASDAI-Calculator/
 
   build-windows:
     needs: changes
@@ -87,17 +87,17 @@ jobs:
       - name: Prepare Windows artifact folder
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path artifacts/windows | Out-Null
-          Copy-Item -Path build/windows/x64/runner/Release/* -Destination artifacts/windows -Recurse -Force
+          New-Item -ItemType Directory -Force -Path artifacts/BASDAI-Calculator | Out-Null
+          Copy-Item -Path build/windows/x64/runner/Release/* -Destination artifacts/BASDAI-Calculator -Recurse -Force
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai calculator-windows
-          path: artifacts/windows/
+          name: BASDAI-Calculator-windows
+          path: artifacts/BASDAI-Calculator/
 
   build-android:
     needs: changes
     if: needs.changes.outputs.android == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -106,5 +106,5 @@ jobs:
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
-          name: basdai calculator-android
+          name: BASDAI-Calculator-android
           path: build/app/outputs/flutter-apk/app-release.apk
