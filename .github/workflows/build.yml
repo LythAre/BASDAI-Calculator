@@ -3,19 +3,53 @@ name: Build All Platforms
 on:
   push:
     paths:
+      - 'android/**'
+      - 'linux/**'
       - 'lib/**'
       - 'windows/**'
       - 'pubspec.yaml'
       - '.github/workflows/build.yml'
   pull_request:
     paths:
+      - 'android/**'
+      - 'linux/**'
       - 'lib/**'
       - 'windows/**'
       - 'pubspec.yaml'
       - '.github/workflows/build.yml'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      android: ${{ steps.filter.outputs.android }}
+      linux: ${{ steps.filter.outputs.linux }}
+      windows: ${{ steps.filter.outputs.windows }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            android:
+              - 'android/**'
+              - 'lib/**'
+              - 'pubspec.yaml'
+              - '.github/workflows/build.yml'
+            linux:
+              - 'linux/**'
+              - 'lib/**'
+              - 'pubspec.yaml'
+              - '.github/workflows/build.yml'
+            windows:
+              - 'windows/**'
+              - 'lib/**'
+              - 'pubspec.yaml'
+              - '.github/workflows/build.yml'
+
   build-linux:
+    needs: changes
+    if: needs.changes.outputs.linux == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,10 +62,12 @@ jobs:
       - run: flutter build linux
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-build
+          name: basdai_calculator-linux
           path: build/linux/x64/release/bundle/
 
   build-windows:
+    needs: changes
+    if: needs.changes.outputs.windows == 'true'
     runs-on: windows-2022
     env:
       CMAKE_GENERATOR: Visual Studio 17 2022
@@ -46,10 +82,12 @@ jobs:
       - run: flutter build windows
       - uses: actions/upload-artifact@v4
         with:
-          name: windows-build
+          name: basdai_calculator-windows
           path: build/windows/x64/runner/Release/
 
   build-android:
+    needs: changes
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,5 +97,5 @@ jobs:
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
-          name: android-build
+          name: basdai_calculator-android
           path: build/app/outputs/flutter-apk/app-release.apk
