@@ -6,13 +6,13 @@ on:
       - 'lib/**'
       - 'windows/**'
       - 'pubspec.yaml'
-      - '.github/workflows/build-windows.yml'
+      - '.github/workflows/build.yml'
   pull_request:
     paths:
       - 'lib/**'
       - 'windows/**'
       - 'pubspec.yaml'
-      - '.github/workflows/build-windows.yml'
+      - '.github/workflows/build.yml'
 
 jobs:
   build-linux:
