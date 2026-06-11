@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
-project(runner LANGUAGES CXX)
+project(basdai_calculator LANGUAGES CXX)
+set(CMAKE_GENERATOR "Visual Studio 17 2022")
 
 # Define the application target. To change its name, change BINARY_NAME in the
 # top-level CMakeLists.txt, not the value here, or `flutter run` will no longer

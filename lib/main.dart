@@ -145,7 +145,7 @@ class _QuestionSliderState extends State<QuestionSlider> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withValues(alpha: 0.1),
+                  color: Colors.blue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Text(
@@ -386,7 +386,7 @@ class _BASDAICalculatorPageState extends State<BASDAICalculatorPage> {
                           constraints: const BoxConstraints(maxWidth: 320),  // чтоб на узких экранах не упиралось в край
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           decoration: BoxDecoration(
-                            color: scoreColor.withValues(alpha: 0.1),
+                            color: scoreColor.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
