@@ -1,0 +1,57 @@
+name: Release 0.9.0
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libglib2.0-dev liblzma-dev
+      - name: Build Linux
+        run: |
+          flutter config --enable-linux-desktop
+          flutter build linux
+          mkdir -p release/BASDAI-Calculator/linux
+          cp -R build/linux/x64/release/bundle/. release/BASDAI-Calculator/linux/
+      - name: Build Windows
+        shell: pwsh
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows
+          New-Item -ItemType Directory -Force -Path release/BASDAI-Calculator/windows | Out-Null
+          Copy-Item -Path build/windows/x64/runner/Release/* -Destination release/BASDAI-Calculator/windows -Recurse -Force
+      - name: Build Android APK
+        run: |
+          flutter build apk --release
+          mkdir -p release/BASDAI-Calculator/android
+          cp build/app/outputs/flutter-apk/app-release.apk release/BASDAI-Calculator/android/BASDAI-Calculator-0.9.0.apk
+      - name: Create archives
+        run: |
+          cd release/BASDAI-Calculator
+          zip -r ../BASDAI-Calculator-linux-0.9.0.zip linux
+          powershell -NoLogo -NoProfile -Command "Compress-Archive -Path windows/* -DestinationPath ../BASDAI-Calculator-windows-0.9.0.zip -Force" || true
+          cd ../..
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.9.0
+          name: BASDAI-Calculator 0.9.0
+          files: |
+            release/BASDAI-Calculator-linux-0.9.0.zip
+            release/BASDAI-Calculator-windows-0.9.0.zip
+            release/BASDAI-Calculator/android/BASDAI-Calculator-0.9.0.apk
