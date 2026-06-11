@@ -6,7 +6,7 @@ on:
       - 'lib/**'
       - 'windows/**'
       - 'pubspec.yaml'
-      - '.github/workflows/build-windows.yml
+      - '.github/workflows/build-windows.yml'
   pull_request:
     paths:
       - 'lib/**'
